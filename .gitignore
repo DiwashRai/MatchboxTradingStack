@@ -1,0 +1,29 @@
+# CMake build trees
+/build/
+/build*/
+.cache/
+
+# vcpkg local installs
+/vcpkg_installed/
+
+# CMake outputs
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+compile_commands.json
+
+# Binaries and libs
+*.o
+*.a
+*.so
+*.exe
+*.out
+
+# Editor junk
+.vscode/
+.idea/
+*.swp
+*~
+
+run/
+src/apps/udp_md_replay_feed/data/
