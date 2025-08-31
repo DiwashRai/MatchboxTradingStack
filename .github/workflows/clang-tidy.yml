@@ -23,9 +23,11 @@ jobs:
 
       - name: Setup vcpkg (manifest mode with cache)
         uses: lukka/run-vcpkg@v11
+
+      - name: Run CMake consuming CMakePreset.json and run vcpkg to build packages
+        uses: lukka/run-cmake@v10
         with:
-          vcpkgGitCommitId: 2025.01.12
-          runVcpkgInstall: false
+          configurePreset: 'debug'
 
       - name: Configure (generate compile_commands.json)
         env:
