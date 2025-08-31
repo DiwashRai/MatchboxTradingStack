@@ -1,15 +1,8 @@
 {
-  "name" : "matchboxtradingstack",
-  "version-string" : "1.0.0",
-  "builtin-baseline" : "bc994510d2eb11aac7b43b03f67a7751d5bfe0e4",
-  "dependencies" : [ {
-    "name" : "cli11",
-    "version>=" : "2.5.0"
-  }, {
-    "name" : "gtest",
-    "version>=" : "1.17.0#1"
-  }, {
-    "name" : "asio",
-    "version>=" : "1.32.0"
-  } ]
+  "name": "matchboxtradingstack",
+  "version-string": "0.1.0",
+  "dependencies": [
+    "cli11",
+    "asio"
+  ]
 }
