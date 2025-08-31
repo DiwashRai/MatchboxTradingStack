@@ -23,6 +23,7 @@ private:
     void start_control_channel() const;
 
     UdpReplayFeedConfig m_config;
+    std::string m_name;
 };
 
-#endif // MATCHBOXTRADINGSTACK_UDPREPLAYFEED_H
+#endif  // MATCHBOXTRADINGSTACK_UDPREPLAYFEED_H

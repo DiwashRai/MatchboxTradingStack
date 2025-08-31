@@ -1,13 +1,5 @@
 
 #include "UdpReplayFeed.hpp"
-#include "databento/record.hpp"
-#include "databento/timeseries.hpp"
-
-#include <asio/buffer.hpp>
-#include <databento/dbn_file_store.hpp>
-#include <asio/io_context.hpp>
-#include <asio/ip/udp.hpp>
-#include <asio/ip/tcp.hpp>
 
 #include <array>
 #include <exception>
@@ -17,15 +9,17 @@
 #include <system_error>
 #include <utility>
 
-UdpReplayFeed::UdpReplayFeed(UdpReplayFeedConfig config)
-    : m_config(std::move(config))
-{
-}
+#include <asio/buffer.hpp>
+#include <asio/io_context.hpp>
+#include <asio/ip/tcp.hpp>
+#include <asio/ip/udp.hpp>
+#include <databento/dbn_file_store.hpp>
+#include <databento/record.hpp>
+#include <databento/timeseries.hpp>
 
-void UdpReplayFeed::run()
-{
-    start_control_channel();
-}
+UdpReplayFeed::UdpReplayFeed(UdpReplayFeedConfig config) : m_config(std::move(config)) {}
+
+void UdpReplayFeed::run() { start_control_channel(); }
 
 void UdpReplayFeed::start_control_channel() const
 {
@@ -33,7 +27,7 @@ void UdpReplayFeed::start_control_channel() const
 
     try
     {
-        const asio::io_context io_context;
+        asio::io_context const io_context;
         std::cout << m_config.control_port << '\n';
     }
     catch (std::exception& e)
@@ -58,7 +52,7 @@ void udp_channel()
 
         std::cout << "waiting for connection...\n";
 
-        for (unsigned int i= 0; i < 1; ++i)
+        for (unsigned int i = 0; i < 1; ++i)
         {
             std::array<char, 1> recv_buf{};
             udp::endpoint remote_endpoint;
@@ -79,20 +73,18 @@ void parse_data_file(std::string_view data_file)
     databento::DbnFileStore store(data_file);
 
     long records = 0;
-    auto print_action = [&](const databento::Record record) {
-         const auto& mbo_msg = record.Get<databento::MboMsg>();
-         std::cout << static_cast<char>(mbo_msg.action) << '\n';
+    auto print_action = [&](databento::Record const record)
+    {
+        auto const& mbo_msg = record.Get<databento::MboMsg>();
+        std::cout << static_cast<char>(mbo_msg.action) << '\n';
 
-         ++records;
-         return databento::KeepGoing::Continue;
+        ++records;
+        return databento::KeepGoing::Continue;
     };
     store.Replay(print_action);
     std::cout << records << '\n';
 }
 
-}
+}  // namespace
 
-void UdpReplayFeed::start_receive()
-{
-
-}
+void UdpReplayFeed::start_receive() {}

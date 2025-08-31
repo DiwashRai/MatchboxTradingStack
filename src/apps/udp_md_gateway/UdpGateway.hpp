@@ -9,8 +9,7 @@ public:
     void run();
 
 private:
-
-    const unsigned int m_port;
+    unsigned int const m_port;
 };
 
-#endif //MATCHBOXTRADINGSTACK_UDPGATEWAY_H
+#endif  // MATCHBOXTRADINGSTACK_UDPGATEWAY_H
