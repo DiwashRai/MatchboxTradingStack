@@ -1,0 +1,51 @@
+name: clang-tidy
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  tidy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Ninja (faster builds)
+        run: sudo apt-get update && sudo apt-get install -y ninja-build
+
+      - name: Install LLVM/Clang
+        uses: KyleMayes/install-llvm-action@v2
+        with:
+          version: 21 # set to the LLVM you want (e.g., 19, 20, 21)
+      # The action exports LLVM_PATH, LLVM_BIN, etc.
+
+      - name: Setup vcpkg (manifest mode with cache)
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: 2025.01.12
+          runVcpkgInstall: false
+
+      - name: Configure (generate compile_commands.json)
+        env:
+          CC:  ${{ env.LLVM_BIN }}/clang
+          CXX: ${{ env.LLVM_BIN }}/clang++
+        run: |
+          cmake --preset debug \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+
+      - name: Run clang-tidy (full project)
+        env:
+          PATH: ${{ env.LLVM_BIN }}:${{ env.PATH }}
+        run: |
+          # Fail on any tidy warning; keep logs clean; avoid formatting side-effects.
+          run-clang-tidy \
+            -p build/debug \
+            -j "$(nproc)" \
+            -quiet \
+            --warnings-as-errors='*' \
+            -- \
+            -format-style=none \
+            -use-color=false
+
