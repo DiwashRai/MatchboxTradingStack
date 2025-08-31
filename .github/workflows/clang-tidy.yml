@@ -18,7 +18,7 @@ jobs:
       - name: Install LLVM/Clang
         uses: KyleMayes/install-llvm-action@v2
         with:
-          version: 21 # set to the LLVM you want (e.g., 19, 20, 21)
+          version: 19 # set to the LLVM you want (e.g., 19, 20, 21)
       # The action exports LLVM_PATH, LLVM_BIN, etc.
 
       - name: Setup vcpkg (manifest mode with cache)
