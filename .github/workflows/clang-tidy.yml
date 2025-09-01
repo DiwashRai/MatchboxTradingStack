@@ -38,8 +38,8 @@ jobs:
           # Fail on any tidy warning; keep logs clean; avoid formatting side-effects.
           run-clang-tidy \
             -quiet \
-            -p build/debug \
-            -j "$(nproc)" \
-            #-warnings-as-errors='*' \
             -use-color=false
+            -p build/debug \
+            -j "$(nproc)"
+            #-warnings-as-errors='*' \
 
