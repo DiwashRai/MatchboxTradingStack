@@ -12,14 +12,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install nina and cmake
-        run: sudo apt-get update && sudo apt-get install -y ninja-build cmake
+      - name: Install nina
+        run: sudo apt-get update && sudo apt-get install -y ninja-build
 
+      # The installs llvm and then exports LLVM_PATH
       - name: Install LLVM/Clang
         uses: KyleMayes/install-llvm-action@v2
         with:
           version: 19
-      # The action exports LLVM_PATH, LLVM_BIN, etc.
+
+      - name: Put LLVM on PATH
+        run: echo "$LLVM_PATH/bin" >> "$GITHUB_PATH"
 
       - name: Setup vcpkg (manifest mode with cache)
         uses: lukka/run-vcpkg@v11
@@ -30,16 +33,7 @@ jobs:
           configurePreset: 'debug'
           buildPreset: ""
 
-      - name: Configure (generate compile_commands.json)
-        env:
-          PATH: ${{ env.LLVM_PATH }}/bin:${{ env.PATH }}
-        run: |
-          cmake --preset debug \
-            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
-
       - name: Run clang-tidy (full project)
-        env:
-          PATH: ${{ env.LLVM_PATH }}/bin:${{ env.PATH }}
         run: |
           # Fail on any tidy warning; keep logs clean; avoid formatting side-effects.
           run-clang-tidy \
