@@ -39,5 +39,6 @@ jobs:
             -quiet \
             -use-color=false \
             -p build/debug \
-            -j "$(nproc)"
+            -j "$(nproc)" \
+            -warnings-as-errors='*'
 
