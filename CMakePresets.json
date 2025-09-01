@@ -12,16 +12,16 @@
       "name": "clang",
       "hidden": true,
       "cacheVariables" : {
-        "CMAKE_C_COMPILER": "$env{LLVM_BIN}/clang",
-        "CMAKE_CXX_COMPILER": "$env{LLVM_BIN}/clang++"
+        "CMAKE_C_COMPILER": "$env{LLVM_PATH}/bin/clang",
+        "CMAKE_CXX_COMPILER": "$env{LLVM_PATH}/bin/clang++"
       }
     },
     {
       "name": "gcc",
       "hidden": true,
       "cacheVariables" : {
-        "CMAKE_C_COMPILER": "$env{GCC_BIN}/gcc",
-        "CMAKE_CXX_COMPILER": "$env{GCC_BIN}/g++"
+        "CMAKE_C_COMPILER": "$env{GCC_PATH}/bin/gcc",
+        "CMAKE_CXX_COMPILER": "$env{GCC_PATH}/bin/g++"
       }
     },
     {

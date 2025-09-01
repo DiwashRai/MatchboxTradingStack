@@ -26,22 +26,20 @@ jobs:
 
       - name: Configure with CMake preset (no build needed)
         uses: lukka/run-cmake@v10
-        env:
-          LLVM_BIN: ${{ env.LLVM_BIN }}
         with:
           configurePreset: 'debug'
           buildPreset: ""
 
       - name: Configure (generate compile_commands.json)
         env:
-          PATH: ${{ env.LLVM_BIN }}:${{ env.PATH }}
+          PATH: ${{ env.LLVM_PATH }}/bin:${{ env.PATH }}
         run: |
           cmake --preset debug \
             -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
       - name: Run clang-tidy (full project)
         env:
-          PATH: ${{ env.LLVM_BIN }}:${{ env.PATH }}
+          PATH: ${{ env.LLVM_PATH }}/bin:${{ env.PATH }}
         run: |
           # Fail on any tidy warning; keep logs clean; avoid formatting side-effects.
           run-clang-tidy \
