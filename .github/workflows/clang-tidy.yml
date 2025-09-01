@@ -37,7 +37,7 @@ jobs:
           # Fail on any tidy warning; keep logs clean; avoid formatting side-effects.
           run-clang-tidy \
             -quiet \
-            -use-color=false
+            -use-color=false \
             -p build/debug \
             -j "$(nproc)"
 
