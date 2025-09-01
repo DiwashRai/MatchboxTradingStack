@@ -6,10 +6,10 @@ class UdpGateway
 public:
     explicit UdpGateway(int port);
 
-    void run();
+    void run() const;
 
 private:
-    unsigned int const m_port;
+    unsigned int m_port;
 };
 
 #endif  // MATCHBOXTRADINGSTACK_UDPGATEWAY_H
