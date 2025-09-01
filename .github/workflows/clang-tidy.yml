@@ -27,11 +27,10 @@ jobs:
       - name: Setup vcpkg (manifest mode with cache)
         uses: lukka/run-vcpkg@v11
 
-      - name: Configure with CMake preset (no build needed)
+      - name: CMake configure
         uses: lukka/run-cmake@v10
         with:
           configurePreset: 'debug'
-          buildPreset: "debug"
 
       - name: Run clang-tidy (full project)
         run: |
@@ -41,5 +40,4 @@ jobs:
             -use-color=false
             -p build/debug \
             -j "$(nproc)"
-            #-warnings-as-errors='*' \
 
