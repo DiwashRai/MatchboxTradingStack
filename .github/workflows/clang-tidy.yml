@@ -18,21 +18,23 @@ jobs:
       - name: Install LLVM/Clang
         uses: KyleMayes/install-llvm-action@v2
         with:
-          version: 19 # set to the LLVM you want (e.g., 19, 20, 21)
+          version: 19
       # The action exports LLVM_PATH, LLVM_BIN, etc.
 
       - name: Setup vcpkg (manifest mode with cache)
         uses: lukka/run-vcpkg@v11
 
-      - name: Run CMake consuming CMakePreset.json and run vcpkg to build packages
+      - name: Configure with CMake preset (no build needed)
         uses: lukka/run-cmake@v10
+        env:
+          LLVM_BIN: ${{ env.LLVM_BIN }}
         with:
           configurePreset: 'debug'
+          buildPreset: ""
 
       - name: Configure (generate compile_commands.json)
         env:
-          CC:  ${{ env.LLVM_BIN }}/clang
-          CXX: ${{ env.LLVM_BIN }}/clang++
+          PATH: ${{ env.LLVM_BIN }}:${{ env.PATH }}
         run: |
           cmake --preset debug \
             -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
