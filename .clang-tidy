@@ -1,0 +1,50 @@
+
+Checks:
+  - '-*'
+  - 'clang-analyzer-*'
+  - 'bugprone-*'
+  - 'cert-*'
+  - 'concurrency-*'
+  - 'cppcoreguidelines-*'
+  - 'misc-*'
+  - 'modernize-*'
+  - 'performance-*'
+  - 'portability-*'
+  - 'readability-*'
+
+  # turn OFF project specific styles
+  - '-fuchsia-*'
+  - '-llvm-*'
+  - '-google-*'
+  - '-[abseil|zircon]-*'
+
+  # turn OFF duplicates/redirects to de-noise warnings received
+  - '-readability-magic-numbers'
+  - '-misc-non-private-member-variables-in-classes'
+  - '-modernize-use-default-member-init'
+  - '-performance-noexcept-destructor'
+
+  # gets in the way
+  - '-cppcoreguidelines-avoid-c-arrays'
+  - '-cppcoreguidelines-non-private-member-variables-in-classes'
+  - '-cppcoreguidelines-pro-type-reinterpret-cast'
+  - '-cppcoreguidelines-macro-usage'
+
+  # personal taste/opinion
+  - '-readability-identifier-naming'
+  - '-readability-identifier-length'
+  - '-modernize-use-auto'
+  - '-modernize-use-trailing-return-type'
+
+#HeaderFilterRegex: '.*'   # analyze across the project (and headers)
+HeaderFilterRegex: '.*/MatchboxTradingStack/(src/test)/.*'   # analyze across the project (and headers)
+FormatStyle: file         # respect your .clang-format if present
+WarningsAsErrors: ''      # keep CI green; promote later if you wish
+
+CheckOptions:
+  # Make readability-implicit-bool-conversion less shouty (still useful)
+  - key: readability-implicit-bool-conversion.AllowIntegerConditions
+    value: 'true'
+  # performance-* tuning: avoid false positives on small trivials
+  - key: performance-unnecessary-value-param.AllowedTypes
+    value: 'std::string_view;std::span'
